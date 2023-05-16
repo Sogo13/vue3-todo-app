@@ -3,7 +3,7 @@
     <div class="view">
       <input class="toggle" type="checkbox"
              :checked="props.todo.isCompleted"
-             @input="$emit('set-is-completed', !props.todo.isCompleted)"
+             @input="setIsCompleted"
       />
       <label>{{ props.todo.text }}</label>
       <button class="destroy"></button>
@@ -16,4 +16,9 @@
 
 <script setup>
 const props = defineProps(['todo'])
+
+const emit = defineEmits()
+function setIsCompleted() {
+  emit('set-is-completed', !props.todo.isCompleted)
+}
 </script>

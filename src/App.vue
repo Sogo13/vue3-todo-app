@@ -1,81 +1,55 @@
 <template>
-<!--  <color-header :text="text" :number="123 + 1"-->
-<!--                :object="{ a: 1 }"-->
-<!--                role="parent"-->
-<!--                class="parent"-->
-<!--                @text-updated="text = $event"-->
-<!--  ></color-header>-->
-<!--  <color-header text="sub"></color-header>-->
+  <p @click="hidden = !hidden"
+     v-css:[property]="color"
+     v-css:fontSize="'10rem'">hide all
+  </p>
+  <template v-if="!hidden">
+    <p @click="flag = !flag">change flag</p>
+    <Page>
+      <template #default="mainProps">
+        {{ mainProps.mainText }}
+        <p>{{mainProps.profile.name}}
+          @ {{mainProps.profile.secondName}}</p>
+        dfghfghj
+        <pre>{{ log(textUpp) }} #{{counter}}</pre>
+        <my-input v-model.lazy.number="text" v-model:counter.qwe.drop="counter"></my-input>
+        sdfgdgh
+      </template>
 
-  <section class="todoapp">
-    <todo-header @add-todo="addTodo"></todo-header>
-    <todos :todos="viewTodo" @set-is-completed="setIsCompleted"></todos>
-    <todo-footer :count="countLeft"
-                 @clear-completed="clearCompleted"
-                 @set-mode="currentMode = $event"
-    ></todo-footer>
-  </section>
-  <footer class="info">
-    <p>Double-click to edit a todo</p>
-    <p>Created by <a href="http://twitter.com/oscargodson">Oscar Godson</a></p>
-    <p>Refactored by <a href="https://github.com/cburgmer">Christoph Burgmer</a></p>
-    <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
-  </footer>
+      <template #header>
+        <h1>My Header</h1>
+      </template>
+      <template #footer>
+        <h1>My Footer</h1>
+      </template>
+    </Page>
+  </template>
 </template>
 
 
 <script setup>
-import TodoHeader from '@/components/Todo/TodoHeader.vue';
-import Todos from '@/components/Todo/Todos.vue';
-import TodoFooter from '@/components/Todo/TodoFooter.vue';
+import MyInput from '@/components/MyInput.vue';
 import { computed, ref } from 'vue';
+import Page from '@/components/Page.vue';
 
-const todos = ref([
-    {
-  id: 1,
-  text: 'first todo',
-  isCompleted: false,
-}, {
-  id: 2,
-  text: 'second todo',
-  isCompleted: true,
-}, {
-  id: 3,
-  text: 'third todo',
-  isCompleted: false,
-},
-])
+const text = ref('text')
+const color = ref('yellow')
+const counter = ref(0)
 
-const Mode = {
-  all: 'all',
-  active: 'active',
-  completed: 'completed'
+const flag = ref(true)
+const hidden = ref(false)
+const property = ref('color')
+
+const textUpp = computed(() => upp(text.value))
+
+function upp(val) {
+  return val.toString().toUpperCase();
 }
-
-const currentMode = ref(Mode.all)
-
-const viewTodo = computed(() =>
-    filterTodoByMode(todos.value, currentMode))
-
-function filterTodoByMode(todos, mode) {
-  switch (mode.value) {
-    case Mode.all: return todos;
-    case Mode.active: return todos.filter(t => !t.isCompleted)
-    case Mode.completed: return todos.filter(t => t.isCompleted)
-  }
+function log(val) {
+  console.log(val)
+  return val
 }
-
-function setIsCompleted({ id, val }) {
-  todos.value.find(todo => todo.id === id).isCompleted = val
+function exp(val) {
+  return val + '!!!'
 }
-
-function clearCompleted() {
-  todos.value = todos.value.filter(t => !t.isCompleted)
-}
-
-function addTodo(text) {
-  todos.value.push({ id: todos.value.length + 1, text, isCompleted: false })
-}
-
-const countLeft = computed(() => todos.value.filter(t => !t.isCompleted).length)
 </script>
