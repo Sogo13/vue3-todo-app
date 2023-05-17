@@ -1,48 +1,91 @@
 <template>
-  <section class="todoapp">
-    <header class="header">
-      <h1>todos</h1>
-      <input class="new-todo" placeholder="What needs to be done?" autofocus>
-    </header>
-    <section class="main">
-      <input id="toggle-all" class="toggle-all" type="checkbox">
-      <label for="toggle-all">Mark all as complete</label>
-      <ul class="todo-list">
-        <li class="todo" v-for="i in [1, 2, 3]" :key="i">
-          <div class="view">
-            <input class="toggle" type="checkbox" />
-            <label>todo #{{ i }}</label>
-            <button class="destroy"></button>
-          </div>
-          <input class="edit" type="text" />
-        </li>
-      </ul>
+    <section class="todoapp">
+        <todo-input @add-new-todo="addTodo"></todo-input>
+        <section class="main">
+            <input id="toggle-all" class="toggle-all" type="checkbox">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <todo-item
+                    v-for="todo in todoList"
+                    :key="todo.id"
+                    :todo="todo"
+                    @toggle-state="toggleTodoState"
+                    @change-title="changeTitle"
+                ></todo-item>
+            </ul>
+        </section>
+        <todo-filters
+            :count="activeTodoCount"
+            @set-filter="filter = $event"
+            @clear-completed="clearCompleted"
+        ></todo-filters>
     </section>
-    <footer class="footer">
-      <span class="todo-count"></span>
-      <ul class="filters">
-        <li>
-          <a href="#/" class="selected">All</a>
-        </li>
-        <li>
-          <a href="#/active">Active</a>
-        </li>
-        <li>
-          <a href="#/completed">Completed</a>
-        </li>
-      </ul>
-      <button class="clear-completed">Clear completed</button>
-    </footer>
-  </section>
-  <footer class="info">
-    <p>Double-click to edit a todo</p>
-    <p>Created by <a href="http://twitter.com/oscargodson">Oscar Godson</a></p>
-    <p>Refactored by <a href="https://github.com/cburgmer">Christoph Burgmer</a></p>
-    <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
-  </footer>
+    <todo-footer></todo-footer>
 </template>
 
-
 <script setup>
+import TodoItem from "@/components/TodoApp/TodoItem.vue";
+import TodoFooter from "@/components/TodoApp/TodoFooter.vue";
+import TodoInput from "@/components/TodoApp/TodoInput.vue";
+import TodoFilters from "@/components/TodoApp/TodoFilters.vue";
+import {computed, ref} from "vue";
 
+const todos = ref([
+    {
+        id: 1,
+        title: 'Buy PC',
+        isCompleted: false
+    },
+    {
+        id: 2,
+        title: 'Run',
+        isCompleted: true
+    },
+    {
+        id: 3,
+        title: 'Clean',
+        isCompleted: false
+    },
+])
+
+const todoList = computed(todosToShow)
+
+const filter = ref('all')
+function todosToShow() {
+    switch (filter.value) {
+        case 'all': return todos.value;
+        case 'active': return todos.value.filter(t => !t.isCompleted)
+        case 'finished': return todos.value.filter(t => t.isCompleted)
+    }
+}
+
+const activeTodoCount = computed(
+    () =>
+        todos.value.filter(t => !t.isCompleted).length
+)
+
+function clearCompleted() {
+    todos.value = todos.value.filter(t => !t.isCompleted)
+}
+
+function addTodo(text) {
+    todos.value.push({
+        id: todos.value.length + 1,
+        title: text,
+        isCompleted: false,
+    })
+}
+
+function toggleTodoState(id) {
+    const todo = getTodoById(id)
+    todo.isCompleted = !todo.isCompleted
+}
+
+function getTodoById(id) {
+    return todos.value.find(t => t.id === id)
+}
+
+function changeTitle({ id, newValue }) {
+    getTodoById(id).title = newValue
+}
 </script>
