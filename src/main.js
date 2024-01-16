@@ -8,7 +8,6 @@ vue.directive('css',
     (el, bindings) => {
         const {value, arg: property} = bindings
         el.style[property] = value
-        console.log(`bindings`, bindings)
     }
 )
 
