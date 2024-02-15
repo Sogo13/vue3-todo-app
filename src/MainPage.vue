@@ -10,7 +10,7 @@
   <template v-if="!hidden">
     <div class="pages">
 
-      <Page class="page" v-for="good in filteredGoodsList" :key="good.id" :good="good" @click="goCheckOut"/>
+      <Page class="page" v-for="good in filteredGoodsList" :key="good.id" :good="good" />
 
     </div>
   </template>
@@ -20,8 +20,8 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
 import Page from '@/components/Page.vue';
-import fetchData from  '@/script'
 import router from "./index";
+import script from "@/script";
 const text = ref('text')
 const color = ref('yellow')
 const counter = ref(0)
@@ -33,7 +33,7 @@ let searchInput = ref('')
 
 const textUpp = computed(() => upp(text.value))
 onMounted(async () => {
-  goodsList.value = await fetchData()
+  goodsList.value = await script.actions.fetchData()
 });
 const filteredGoodsList = computed(() => {
   const searchValue = searchInput.value.toLowerCase().trim();
@@ -55,9 +55,6 @@ function upp(val) {
 }
 function log(val) {
   return val
-}
-function goCheckOut(){
-  router.push({ name: 'checkout'});
 }
 function exp(val) {
   return val + '!!!'

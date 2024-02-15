@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="page">
+    <div class="page" @click="goGoodPage">
       <h1 class="title">{{good.title}}</h1>
       <div class="imgBlock">
         <img class="image" :src="good.image" alt="sorry">
@@ -13,6 +13,8 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
+import {useRouter} from "vue-router";
+const router = useRouter();
 
 const mainText = ref('Main')
 
@@ -21,7 +23,11 @@ const props = defineProps({
     type: Object,
     required: true
   }
+
 });
+function goGoodPage(){
+  router.push({ name: 'goodPage', params: { id: props.good.id} });
+}
 </script>
 <style scoped>
 .page{
