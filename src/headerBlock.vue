@@ -1,15 +1,28 @@
 <template>
   <div class="header" >
     <p class="header-txt" @click="goHome">Домой</p>
+    <p class="header-txt" v-if="!login" @click="goLogin">Вход</p>
+    <p class="header-txt" v-if="login" @click="stopLogin">Выход</p>
     <p class="header-txt" @click="goAuthorie">Админка</p>
+    <p class="header-txt" v-if="login" >{{ login }}</p>
   </div>
 </template>
 <script setup>
 import router from "./index";
+import {computed} from "vue";
+import store from "@/store";
 const isAuthenticated = localStorage.getItem('isAuthenticated');
+const login = computed(() => store.getters.getLogin);
 function goHome(){
 
   router.push({ name: 'home'});
+}
+function goLogin(){
+
+  router.push({ name: 'login'});
+}
+function stopLogin(){
+store.dispatch('stopLogin')
 }
 function goAuthorie(){
   if (isAuthenticated === 'true'){

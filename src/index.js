@@ -6,6 +6,7 @@ import goodPage from "@/goodPage.vue";
 import cart from "@/cart.vue"
 import authorisation from  "@/authorisation.vue"
 import createGood from "@/createGood.vue"
+import login from "@/login.vue"
 
 const router = createRouter({
     history: createWebHistory(),
@@ -45,7 +46,13 @@ const router = createRouter({
             name: 'createGood',
             component: createGood,
             params: true
-        }
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: login,
+            params: true
+        },
 
     ]
 });

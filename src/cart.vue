@@ -30,15 +30,18 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import {mapActions, mapGetters, useStore} from 'vuex';
 import script from "@/script";
-
+const { getCart } = mapGetters(['getCart']);
 const route = useRoute();
 const choosenGood = ref('');
-const count = route.params.count
+const store = useStore();
+const info = computed(() => store.getters.getCart);
+const count = info.value.counter
+
 
 onMounted(async () => {
-  const goodId = Number(route.params.id);
-  choosenGood.value = await script.actions.fetchGoodById(goodId);
+  choosenGood.value = await script.actions.fetchGoodById(info.value.id);
 });
 
 
@@ -49,11 +52,11 @@ const finalPrice = computed(() => {
 
 const router = useRouter();
 
-function pay() {
-  // Perform payment logic here
-  // Redirect to a success page or show a confirmation message
-  router.push({ name: 'payment-success' });
-}
+// function pay() {
+//   // Perform payment logic here
+//   // Redirect to a success page or show a confirmation message
+//   router.push({ name: 'payment-success' });
+// }
 </script>
 
 <style scoped lang="scss">

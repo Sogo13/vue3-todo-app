@@ -32,11 +32,13 @@
 
 <script setup>
 import {computed, onMounted, reactive, ref} from 'vue';
-
+import {  mapActions } from 'vuex';
 import {useRoute} from "vue-router";
 import {useRouter} from "vue-router";
+const { addToCart } = mapActions( ['addToCart']);
 const router = useRouter();
 import script from "@/script";
+import store from "@/store";
 const route = useRoute();
 const choosenGood = ref('');
 const count = ref(1)
@@ -55,6 +57,11 @@ function deleteGood(){
 
 }
 function goToCart(){
+  let data = {
+    id:choosenGood.value.id,
+    counter:count.value
+  }
+  store.dispatch('addToCart',{data})
   router.push({ name: 'cart', params: { id: choosenGood.id,count:count.value} });
 }
 const finalPrice = computed(function() {

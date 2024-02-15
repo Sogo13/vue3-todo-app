@@ -1,9 +1,10 @@
 import { createApp } from 'vue'
 import router from './index'
+import store from "./store";
 import App from './App.vue'
 const vue = createApp(App)
 vue.use(router)
-
+vue.use(store)
 
 
 vue.directive('css',
