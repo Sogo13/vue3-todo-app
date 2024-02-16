@@ -7,9 +7,11 @@
     <div class="body">
       <div class="forms">
         <label class="forms-label">Логин</label>
+        <form action="">
         <input v-model="email" @blur="validateEmail" class="forms-input" :class="{ 'error': emailError }">
         <div class="error-message" v-if="emailError">{{ emailError }}</div>
         <div><button class="btn" @click="handleSubmit">Submit</button></div>
+        </form>
 
       </div>
     </div>

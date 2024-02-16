@@ -6,14 +6,19 @@
 
     <div class="body">
       <div class="forms">
-        <label class="forms-label">Фото товара</label>
-        <input type="file" accept="image/*" @change="handleFileUpload">
-
-        <label class="forms-label">Описание товара</label>
-        <textarea class="forms-input" v-model="description"></textarea>
-
-        <label class="forms-label">Цена товара</label>
-        <input class="forms-input" type="number" v-model="price">
+        <form action="">
+          <label class="forms-label">Фото товара</label>
+          <input type="file" accept="image/*" @change="handleFileUpload">
+        </form>
+        <form action="">
+          <label class="forms-label">Описание товара</label>
+          <textarea class="forms-input" v-model="description"></textarea>
+        </form>
+        <form action="">
+          <label class="forms-label">Цена товара</label>
+          <input class="forms-input" @blur="validatePrice" type="number" v-model="price">
+          <p v-if="priceError">{{priceError}}</p>
+        </form>
 
 
       </div>
@@ -29,18 +34,22 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
+const priceError = ref('')
 const file = ref(null);
 const description = ref('');
 const price = ref('');
 
 async function createProduct() {
+  validatePrice()
   // Проверяем, что все поля заполнены
   if (!file.value || !description.value || !price.value) {
     console.error('Please fill in all fields');
     return;
   }
-
+  validatePrice()
+  if (priceError.value !== ''){
+    return
+  }
   // Создаем объект данных для отправки на сервер
   const data = new FormData();
   data.append('file', file.value);
@@ -64,7 +73,14 @@ async function createProduct() {
     console.error('An error occurred:', error);
   }
 }
-
+function validatePrice() {
+  if (!price.value || price.value < 1){
+    priceError.value = 'Error in price'
+  }
+  else{
+    priceError.value = ''
+  }
+}
 function handleFileUpload(event) {
   file.value = event.target.files[0];
 }

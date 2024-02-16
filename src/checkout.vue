@@ -6,22 +6,28 @@
 
     <div class="body">
       <div class="forms">
-        <label class="forms-label">Email</label>
-        <input v-model="email" @blur="validateEmail" class="forms-input" :class="{ 'error': emailError }">
-        <div class="error-message" v-if="emailError">{{ emailError }}</div>
-
-        <label class="forms-label">Phone</label>
-        <input v-model="phone" @blur="validatePhone" class="forms-input" type="number" :class="{ 'error': phoneError }">
-        <div class="error-message" v-if="phoneError">{{ phoneError }}</div>
-
-        <label class="forms-label">Address</label>
-        <input v-model="address" @blur="validateAddress" class="forms-input" :class="{ 'error': addressError }">
-        <div class="error-message" v-if="addressError">{{ addressError }}</div>
-
-        <label class="forms-label">Card Number</label>
-        <input v-model="cardNumber" @blur="validateCardNumber" type="number" class="forms-input" :class="{ 'error': cardNumberError }">
-        <div class="error-message" v-if="cardNumberError">{{ cardNumberError }}</div>
+        <form action="">
+          <label class="forms-label">Email</label>
+          <input v-model="email" @blur="validateEmail" class="forms-input" :class="{ 'error': emailError }">
+          <div class="error-message" v-if="emailError">{{ emailError }}</div>
+        </form>
+        <form action="">
+          <label class="forms-label">Phone</label>
+          <input v-model="phone" @blur="validatePhone" class="forms-input" type="number" :class="{ 'error': phoneError }">
+          <div class="error-message" v-if="phoneError">{{ phoneError }}</div>
+        </form>
+        <form action="">
+          <label class="forms-label">Address</label>
+          <input v-model="address" @blur="validateAddress" class="forms-input" :class="{ 'error': addressError }">
+          <div class="error-message" v-if="addressError">{{ addressError }}</div>
+        </form>
+        <form action="">
+          <label class="forms-label">Card Number</label>
+          <input v-model="cardNumber" @blur="validateCardNumber" type="number" class="forms-input" :class="{ 'error': cardNumberError }">
+          <div class="error-message" v-if="cardNumberError">{{ cardNumberError }}</div>
+        </form>
         <div><button class="btn" @click="handleSubmit">Submit</button></div>
+
 
       </div>
     </div>
