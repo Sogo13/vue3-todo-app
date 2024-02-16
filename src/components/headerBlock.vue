@@ -5,12 +5,14 @@
     <p class="header-txt" v-if="login" @click="stopLogin">Выход</p>
     <p class="header-txt" @click="goAuthorie">Админка</p>
     <p class="header-txt" v-if="login" >{{ login }}</p>
+    <p class="header-txt" @click="goCart">Корзина</p>
+    <p class="header-txt" @click="clearCart">Очистить корзину</p>
   </div>
 </template>
 <script setup>
-import router from "./index";
+import router from "@";
 import {computed} from "vue";
-import store from "@/store";
+import store from "@/store/store";
 const isAuthenticated = localStorage.getItem('isAuthenticated');
 const login = computed(() => store.getters.getLogin);
 function goHome(){
@@ -25,24 +27,29 @@ function stopLogin(){
 store.dispatch('stopLogin')
 }
 function goAuthorie(){
-  if (isAuthenticated === 'true'){
-    router.push({ name: 'createGood'});
-  }
-  else{
-    router.push({ name: 'authorisation'});
-  }
+  router.push({ name: 'authorisation' });
 
+}
+function goCart(){
+  router.push({ name: 'cart' });
+}
+function clearCart(){
+store.dispatch('clearCart')
 }
 </script>
 <style scoped lang="scss">
 .header{
-  width: 70%;
+  background-color: #181818;
+  z-index: 10;
+  width: 85%;
   display: flex;
   justify-content: space-around;
   position: fixed;
   top: 0;
 
 &-txt{
+  color: white;
+  cursor: pointer;
   font-size: 24px;
 }
 }

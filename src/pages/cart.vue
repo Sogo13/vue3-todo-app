@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="page">
-      <div class="cart">
+      <div class="cart" v-if="store.getters.getCart.id !== 0">
         <div class="productCard">
           <div class="imageBlock">
             <img class="image" :src="choosenGood.image" alt="sorry">
@@ -23,6 +23,7 @@
           <button class="payButton" @click="pay">Pay Now</button>
         </div>
       </div>
+      <div v-if="store.getters.getCart.id === 0">Добавьте что-то в корзину</div>
     </div>
   </main>
 </template>

@@ -38,7 +38,7 @@ import {useRouter} from "vue-router";
 const { addToCart } = mapActions( ['addToCart']);
 const router = useRouter();
 import script from "@/script";
-import store from "@/store";
+import store from "@/store/store";
 const route = useRoute();
 const choosenGood = ref('');
 const count = ref(1)
@@ -62,7 +62,7 @@ function goToCart(){
     counter:count.value
   }
   store.dispatch('addToCart',{data})
-  router.push({ name: 'cart', params: { id: choosenGood.id,count:count.value} });
+  router.push({ name: 'cart' });
 }
 const finalPrice = computed(function() {
   const price = count.value * Number(choosenGood.value.price);

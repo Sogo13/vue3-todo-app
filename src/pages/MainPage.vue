@@ -20,9 +20,9 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
 import Page from '@/components/Page.vue';
-import router from "./index";
+import router from "@";
 import { mapGetters, mapActions } from 'vuex';
-import store from "@/store";
+import store from "@/store/store";
 const { getGoods } = mapGetters(['getGoods']);
 // const { fetchData, fetchGoodById } = mapActions( ['fetchData', 'fetchGoodById']);
 const text = ref('text')
@@ -31,11 +31,11 @@ const counter = ref(0)
 const flag = ref(true)
 const hidden = ref(false)
 const property = ref('color')
-const goodsList = ref(null)
+const goodsList = computed(() => store.getters.getGoods)
 let searchInput = ref('')
 const textUpp = computed(() => upp(text.value))
 onMounted(async () => {
-  goodsList.value = await store.dispatch('fetchData')
+  await store.dispatch('fetchData')
 });
 const filteredGoodsList = computed(() => {
   const searchValue = searchInput.value.toLowerCase().trim();

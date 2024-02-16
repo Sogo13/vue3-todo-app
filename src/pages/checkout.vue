@@ -36,7 +36,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import router from "./index";
+import router from "@";
 
 const email = ref('');
 const phone = ref('');

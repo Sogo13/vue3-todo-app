@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import checkout from '@/checkout.vue';
-import MainPage from "@/MainPage.vue";
-import goodPage from "@/goodPage.vue";
-import cart from "@/cart.vue"
-import authorisation from  "@/authorisation.vue"
-import createGood from "@/createGood.vue"
-import login from "@/login.vue"
+import checkout from '@/pages/checkout.vue';
+import MainPage from "@/pages/MainPage.vue";
+import goodPage from "@/pages/goodPage.vue";
+import cart from "@/pages/cart.vue"
+import authorisation from "@/pages/authorisation.vue"
+import createGood from "@/pages/createGood.vue"
+import login from "@/pages/login.vue"
 
 const router = createRouter({
     history: createWebHistory(),
@@ -30,16 +30,22 @@ const router = createRouter({
             params: true
         },
         {
-            path: '/cart/:id/:count',
+            path: '/cart',
             name: 'cart',
             component: cart,
-            params: true
+
         },
         {
             path: '/authorisation',
             name: 'authorisation',
             component: authorisation,
-            params: true
+            beforeEnter: (to, from, next) => {
+                const isAuthenticated = localStorage.getItem('isAuthenticated');
+                if (isAuthenticated === 'true') {
+                    next({ name: 'createGood' });
+                } else {
+                    next();
+                }}
         },
         {
             path: '/createGood',

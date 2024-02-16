@@ -20,8 +20,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import router from "./index";
-import store from "@/store";
+import router from "@";
+import store from "@/store/store";
 const email = ref('');
 const emailError = ref('');
 

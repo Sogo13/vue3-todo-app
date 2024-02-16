@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import headerBlock from './headerBlock.vue'
+import headerBlock from './components/headerBlock.vue'
 </script>
 
 <template>
@@ -8,6 +8,6 @@ import headerBlock from './headerBlock.vue'
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title></title>
   </head>
-<headerBlock/>
+<headerBlock  />
   <RouterView />
 </template>

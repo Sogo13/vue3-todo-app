@@ -9,7 +9,10 @@
         <form action="">
           <label class="forms-label">Фото товара</label>
           <input type="file" accept="image/*" @change="handleFileUpload">
-        </form>
+        </form> <form action="">
+        <label class="forms-label">Название</label>
+        <textarea class="forms-input" v-model="title"></textarea>
+      </form>
         <form action="">
           <label class="forms-label">Описание товара</label>
           <textarea class="forms-input" v-model="description"></textarea>
@@ -32,12 +35,14 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import store from "@/store/store";
 
 const router = useRouter();
 const priceError = ref('')
 const file = ref(null);
+const title = ref('')
 const description = ref('');
-const price = ref('');
+const price = ref(0);
 
 async function createProduct() {
   validatePrice()
@@ -51,27 +56,14 @@ async function createProduct() {
     return
   }
   // Создаем объект данных для отправки на сервер
-  const data = new FormData();
-  data.append('file', file.value);
-  data.append('description', description.value);
-  data.append('price', price.value);
-
-  try {
-    // Отправляем данные на сервер
-    const response = await fetch('https://example.com/api/products', {
-      method: 'POST',
-      body: data
-    });
-
-    if (response.ok) {
-      console.log('Product created successfully');
-      await router.push({ name: 'home' });
-    } else {
-      console.error('Failed to create product');
-    }
-  } catch (error) {
-    console.error('An error occurred:', error);
+  const data = {
+    img:file.value,
+    price: price.value,
+    title: title.value,
+    description:description.value
   }
+  await store.dispatch('addGood', {data})
+
 }
 function validatePrice() {
   if (!price.value || price.value < 1){
