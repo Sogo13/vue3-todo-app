@@ -32,19 +32,19 @@
 
 <script setup>
 import {computed, onMounted, reactive, ref} from 'vue';
-import {  mapActions } from 'vuex';
+import {mapActions, useStore} from 'vuex';
 import {useRoute} from "vue-router";
 import {useRouter} from "vue-router";
 const { addToCart } = mapActions( ['addToCart']);
 const router = useRouter();
 import script from "@/script";
-import store from "@/store/store";
+import goods from "@/store/modules/goods";
 const route = useRoute();
+const store = useStore()
 const choosenGood = ref('');
 const count = ref(1)
 onMounted(async () => {
-
-  const goodId = Number(route.params.id);
+  const goodId = await store.getters.getChoosen.id
   choosenGood.value = await script.actions.fetchGoodById(goodId);
 });
 function addGood(){

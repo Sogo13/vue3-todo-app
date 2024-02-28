@@ -24,10 +24,9 @@ const router = createRouter({
             params: true
         },
         {
-            path: '/goodPage/:id',
+            path: '/goodPage',
             name: 'goodPage',
             component: goodPage,
-            params: true
         },
         {
             path: '/cart',

@@ -14,8 +14,9 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import {useRouter} from "vue-router";
+import { useStore } from 'vuex';
 const router = useRouter();
-
+const store = useStore()
 const mainText = ref('Main')
 
 const props = defineProps({
@@ -25,8 +26,10 @@ const props = defineProps({
   }
 
 });
+
 function goGoodPage(){
-  router.push({ name: 'goodPage', params: { id: props.good.id} });
+  store.dispatch('choseGood',{data:props.good})
+  router.push({ name: 'goodPage' });
 }
 </script>
 <style scoped>

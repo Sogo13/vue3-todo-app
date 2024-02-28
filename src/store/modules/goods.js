@@ -29,6 +29,13 @@ const goods = {
                 console.error(error,'ERROR');
             }
         },
+        async choseGood(ctx,payload){
+            try {
+                ctx.commit('updateChoosen',payload.data)
+            } catch (error) {
+                console.error(error,'ERROR');
+            }
+        },
 
     },
 
@@ -40,13 +47,20 @@ const goods = {
             let id = state.allGoods.length + 1
             good.id = id
             state.allGoods.push(good)
-        }
+        },
+        updateChoosen(state,good){
+            state.choosenGood = good
+        },
 
     },
     state: {
         allGoods:null,
+        choosenGood:null,
     },
     getters: {
+        getChoosen(state){
+          return state.choosenGood
+        },
         getGoods(state) {
             return state.allGoods
         },
