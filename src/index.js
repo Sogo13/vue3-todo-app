@@ -50,7 +50,15 @@ const router = createRouter({
             path: '/createGood',
             name: 'createGood',
             component: createGood,
-            params: true
+            params: true,
+            beforeEnter: (to, from, next) => {
+                const isAuthenticated = localStorage.getItem('isAuthenticated');
+                console.log(isAuthenticated)
+                if (isAuthenticated === 'false') {
+                    next({ name: 'authorisation' });
+                } else {
+                    next();
+                }}
         },
         {
             path: '/login',
